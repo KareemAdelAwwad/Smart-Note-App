@@ -1,7 +1,14 @@
 import { Router } from "express";
+import { rateLimit } from "express-rate-limit";
 import { authenticationMiddleware, errorHandler, ValidationMiddleware } from "../../middlewares/index.js";
 import * as Service from "./note.service.js";
 import * as ValidationSchema from "./note.validation.js";
+const AiLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 20,
+  standardHeaders: false,
+  legacyHeaders: false,
+});
 
 const noteController = Router();
 
@@ -29,6 +36,7 @@ noteController.put("/:id",
 );
 
 noteController.post("/:id/summarize",
+  AiLimiter,
   authenticationMiddleware,
   ValidationMiddleware(ValidationSchema.noteByIdSchema),
   errorHandler(Service.summarizeNote)

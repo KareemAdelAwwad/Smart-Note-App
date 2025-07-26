@@ -7,8 +7,14 @@ const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export const aiSummarize = async (note) => {
   try {
     const response = await gemini.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Summarize the following note content:\n\nTitle: ${note.title}\nContent: ${note.content} \n System Note: Summarize the note in a concise manner, focusing on the main points and key details. \n Language: The same language as the note content.`,
+      model: "gemini-2.5-flash-lite",
+      contents: `Summarize the following note content:\n\n
+
+      Title: ${note.title}\n
+      Content: ${note.content} \n\n
+
+      System Note: Summarize the note in a concise manner, focusing on the main points and key details and keep it under 100 words. \n
+      Language: The same language as the note content.`,
     });
 
     return response.text;
