@@ -1,5 +1,11 @@
 import { logger } from "../utils/logger.js";
 
+/**
+ * Middleware to handle errors for async API functions
+ * @function errorHandler
+ * @param {Function} api - The API handler function
+ * @returns {Function}
+ */
 export const errorHandler = (api) => (req, res, next) => {
   try {
     const result = api(req, res, next);
@@ -16,6 +22,14 @@ export const errorHandler = (api) => (req, res, next) => {
   }
 };
 
+/**
+ * Global error handler middleware
+ * @function globalErrorHandler
+ * @param {Error} error
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Response}
+ */
 export const globalErrorHandler = (error, req, res) => {
   logger.error(error, "🚫 Global Error Handler:");
   return res.status(500).json({ message: "💾 Internal Server Error", error: error.message });

@@ -4,6 +4,7 @@ import { logger } from "../utils/logger.js";
 
 /**
  * Authentication middleware to verify JWT tokens and check if they are revoked
+ * @function authenticationMiddleware
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  * @param {Function} next - Express next function

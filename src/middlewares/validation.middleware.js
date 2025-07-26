@@ -1,3 +1,9 @@
+/**
+ * Middleware for validating request data using provided schema
+ * @function ValidationMiddleware
+ * @param {Object} schema - Zod validation schema
+ * @returns {Function} Express middleware
+ */
 export const ValidationMiddleware = (schema) => (req, res, next) => {
   const schemaKeys = Object.keys(schema);
 

@@ -6,6 +6,11 @@ const allowedTypes = ["image/jpeg", "image/png"];
 const uploadPath = path.resolve("uploads");
 const maxFileSize = 1024 * 1024 * 5; // 5MB
 
+/**
+ * Middleware for handling profile picture uploads using multer
+ * @function MulterMiddleware
+ * @returns {Function} multer middleware
+ */
 export const MulterMiddleware = () => {
   // Ensure upload directory exists
   if (!fs.existsSync(uploadPath)) {

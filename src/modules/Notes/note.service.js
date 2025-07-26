@@ -1,6 +1,12 @@
 import { aiSummarize } from "../../config/gemini.js";
 import { Note } from "../../db/models/index.js";
 
+/**
+ * Create a new note for the authenticated user
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const createNote = async (req, res) => {
   const { title, content } = req.body;
   const userId = req.user.id;
@@ -13,12 +19,24 @@ export const createNote = async (req, res) => {
   return res.status(201).json({ message: "Note created successfully", note: newNote });
 };
 
+/**
+ * Get all notes for the authenticated user
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const getNotesByUser = async (req, res) => {
   const userId = req.user.id;
   const notes = await Note.find({ userId }).sort({ createdAt: -1 });
   return res.status(200).json({ notes });
 };
 
+/**
+ * Delete a note by ID for the authenticated user
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const deleteNote = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;
@@ -29,6 +47,12 @@ export const deleteNote = async (req, res) => {
   return res.status(200).json({ message: "Note deleted successfully" });
 };
 
+/**
+ * Update a note by ID for the authenticated user
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const updateNote = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;
@@ -47,6 +71,12 @@ export const updateNote = async (req, res) => {
   return res.status(200).json({ message: "Note updated successfully", note: updatedNote });
 };
 
+/**
+ * Summarize a note using AI for the authenticated user
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const summarizeNote = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;

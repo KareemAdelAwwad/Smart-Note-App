@@ -4,6 +4,12 @@ import { forgetPasswordTemplate, passwordResetSuccessTemplate } from "../../util
 import { generateJWT, verifyJWT } from "../../utils/JWT.js";
 import { comparePassword } from "../../utils/passwordHash.js";
 
+/**
+ * Register a new user
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const Register = async (req, res) => {
   const { name, email, password } = req.body;
   const existingUser = await User.findOne({ email });
@@ -15,6 +21,12 @@ export const Register = async (req, res) => {
   return res.status(201).json({ message: "User registered successfully" });
 };
 
+/**
+ * Login user and return JWT token
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const Login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -31,6 +43,12 @@ export const Login = async (req, res) => {
   });
 };
 
+/**
+ * Logout user and revoke JWT token
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const Logout = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "Unauthorized" });
@@ -41,6 +59,12 @@ export const Logout = async (req, res) => {
   return res.status(200).json({ message: "Logout successful" });
 };
 
+/**
+ * Upload and update user's profile picture
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const UploadProfilePic = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
@@ -53,6 +77,12 @@ export const UploadProfilePic = async (req, res) => {
   return res.status(200).json({ message: "Profile picture uploaded successfully", directURL });
 };
 
+/**
+ * Send OTP to user's email for password reset
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const ForgotPassword = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -71,6 +101,12 @@ export const ForgotPassword = async (req, res) => {
   return res.status(200).json({ message: "OTP sent to your email" });
 };
 
+/**
+ * Reset user password using OTP
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<Response>}
+ */
 export const ResetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
   const user = await User.findOne({ email });
